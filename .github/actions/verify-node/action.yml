@@ -1,0 +1,31 @@
+name: Verify Node project
+description: Run formatting, linting, tests and build
+
+inputs:
+  node-version:
+    required: false
+    default: '22'
+
+runs:
+  using: composite
+  steps:
+    - name: Setup
+      uses: ./.github/actions/setup-node
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Check formatting
+      run: npm run prettier:check
+      shell: bash
+
+    - name: Lint
+      run: npm run lint
+      shell: bash
+
+    - name: Test
+      run: npm test
+      shell: bash
+
+    - name: Build
+      run: npm run build --if-present
+      shell: bash

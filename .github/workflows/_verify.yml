@@ -1,0 +1,26 @@
+name: Verify reusable
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        required: false
+        default: '22'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify
+        uses: ./.github/actions/verify-node
+        with:
+          node-version: ${{ inputs.node-version }}
